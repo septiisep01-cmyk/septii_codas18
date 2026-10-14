@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA Noir & Gold — Fine Dining & Aesthetic Lounge</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        aura: {
+                            black: '#0A0A0A',      /* Dark Obsidian/Charcoal */
+                            dark: '#121212',       /* Deep Card Background */
+                            surface: '#1A1A1A',    /* Elevated Surface */
+                            gold: '#D4AF37',       /* Pure Gold */
+                            goldlight: '#F3E5AB',  /* Light Gold */
+                            golddark: '#997A15',   /* Muted Dark Gold */
+                            cream: '#F7F4EB',      /* Warm Matte Cream */
+                            muted: '#A1A1AA'       /* Muted Neutral Text */
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', '"Playfair Display"', 'serif'],
+                        display: ['"Playfair Display"', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0A0A0A;
+            color: #F7F4EB;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Glassmorphism & Gold Accent Borders */
+        .glass-gold {
+            background: rgba(18, 18, 18, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .glass-card {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(247, 244, 235, 0.08);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.45);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+
+        /* Gold Gradient Text & Effects */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #997A15 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .bg-gold-gradient {
+            background: linear-gradient(135deg, #F3E5AB 0%, #D4AF37 50%, #B89228 100%);
+        }
+
+        .bg-gold-hover {
+            background: linear-gradient(135deg, #FFFFFF 0%, #F3E5AB 50%, #D4AF37 100%);
+        }
+
+        .text-glow-gold {
+            text-shadow: 0 0 25px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Glowing Ambient Orbs */
+        .ambient-gold-orb {
+            position: absolute;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.12) 0%, rgba(10, 10, 10, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Image Zoom Animation */
+        .img-zoom-container {
+            overflow: hidden;
+        }
+        .img-zoom-container img {
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0A0A0A;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1A1A1A;
+            border-radius: 4px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+<body class="relative selection:bg-aura-gold selection:text-aura-black">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-6 right-6 z-50 transform translate-y-[-150%] opacity-0 transition-all duration-500 ease-in-out glass-gold px-6 py-4 rounded-2xl flex items-center gap-4 shadow-2xl max-w-md border-l-4 border-l-aura-gold">
+        <div class="w-10 h-10 rounded-full bg-aura-gold/20 flex items-center justify-center text-aura-gold flex-shrink-0">
+            <i data-lucide="check-circle" class="w-6 h-6"></i>
+        </div>
+        <div>
+            <h4 id="toast-title" class="font-sans font-semibold text-aura-cream text-sm">Konfirmasi Diterima!</h4>
+            <p id="toast-message" class="text-xs text-aura-muted mt-0.5">Reservasi meja Anda telah sukses diproses.</p>
+        </div>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 w-full z-40 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-6 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-full border border-aura-gold/40 flex items-center justify-center text-aura-gold group-hover:border-aura-gold transition-colors shadow-[0_0_15px_rgba(212,175,55,0.2)]">
+                    <i data-lucide="crown" class="w-5 h-5"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-serif text-2xl tracking-[0.2em] font-bold text-aura-cream group-hover:text-aura-gold transition-colors">AURA</span>
+                    <span class="text-[9px] tracking-[0.4em] font-sans text-aura-gold uppercase -mt-1 font-semibold">Noir & Gold</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-xs font-sans tracking-[0.15em] uppercase text-aura-cream/80">
+                <a href="#about" class="hover:text-aura-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-aura-gold hover:after:w-full after:transition-all">Filosofi</a>
+                <a href="#menu" class="hover:text-aura-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-aura-gold hover:after:w-full after:transition-all">Menu Kuliner</a>
+                <a href="#gallery" class="hover:text-aura-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-aura-gold hover:after:w-full after:transition-all">Suasana & Galeri</a>
+                <a href="#reviews" class="hover:text-aura-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-aura-gold hover:after:w-full after:transition-all">Ulasan</a>
+                <a href="#contact" class="hover:text-aura-gold transition-colors py-1 relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-aura-gold hover:after:w-full after:transition-all">Lokasi</a>
+            </nav>
+
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#reservation" class="px-6 py-3 rounded-full text-xs font-sans tracking-[0.15em] uppercase bg-gold-gradient text-aura-black font-bold hover:opacity-90 transition-all shadow-lg shadow-aura-gold/15 hover:shadow-aura-gold/30 transform hover:-translate-y-0.5">
+                    Reservasi Meja
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-aura-cream hover:text-aura-gold focus:outline-none" aria-label="Toggle Menu">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-drawer" class="hidden md:hidden glass-gold border-t border-aura-gold/10 px-6 py-6 transition-all">
+            <nav class="flex flex-col gap-4 text-xs font-sans tracking-[0.15em] uppercase">
+                <a href="#about" class="mobile-link text-aura-cream hover:text-aura-gold py-1">Filosofi</a>
+                <a href="#menu" class="mobile-link text-aura-cream hover:text-aura-gold py-1">Menu Kuliner</a>
+                <a href="#gallery" class="mobile-link text-aura-cream hover:text-aura-gold py-1">Suasana & Galeri</a>
+                <a href="#reviews" class="mobile-link text-aura-cream hover:text-aura-gold py-1">Ulasan</a>
+                <a href="#contact" class="mobile-link text-aura-cream hover:text-aura-gold py-1">Lokasi</a>
+                <a href="#reservation" class="mobile-link inline-block text-center mt-2 px-6 py-3 rounded-full text-xs tracking-widest uppercase bg-gold-gradient text-aura-black font-bold">
+                    Reservasi Meja
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 1. HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center pt-28 pb-20 px-6 overflow-hidden">
+        <!-- Background Ambient Glow & Subtle Pattern -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1920&auto=format&fit=crop" alt="AURA Fine Dining Ambience" class="w-full h-full object-cover opacity-15 filter brightness-75 scale-105 animate-pulse" style="animation-duration: 12s;">
+            <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/85 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-aura-black via-transparent to-aura-black"></div>
+        </div>
+
+        <div class="ambient-gold-orb -top-20 -left-20"></div>
+        <div class="ambient-gold-orb bottom-10 right-0"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto text-center space-y-8">
+            
+            <!-- Badge Info Quick -->
+            <div class="inline-flex flex-wrap items-center justify-center gap-3 sm:gap-4 px-5 py-2 rounded-full glass-gold text-xs tracking-wider uppercase text-aura-cream mb-2">
+                <span class="flex items-center gap-2 text-aura-gold font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-aura-gold animate-ping"></span>
+                    Open Today: 11.00 - 23.00 WIB
+                </span>
+                <span class="text-aura-gold/40">|</span>
+                <span class="flex items-center gap-1">
+                    <i data-lucide="star" class="w-3.5 h-3.5 fill-aura-gold text-aura-gold"></i>
+                    <strong class="text-aura-cream font-bold">4.9/5</strong> (1,200+ Review)
+                </span>
+            </div>
+
+            <!-- Headline Typography -->
+            <h1 class="font-serif text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-aura-cream leading-[1.1]">
+                Nikmati Kelezatan Kuliner Dalam <br/>
+                <span class="italic font-normal text-gold-gradient text-glow-gold">Atmosfer Kemewahan Minimalis</span>
+            </h1>
+
+            <p class="font-sans text-sm sm:text-base md:text-lg text-aura-muted max-w-2xl mx-auto font-light leading-relaxed tracking-wide">
+                Simfoni rasa eksklusif yang diracik oleh Master Chef ternama, berpadu harmonis dalam kehangatan arsitektur *noir & gold* yang memesona.
+            </p>
+
+            <!-- Action CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-5 pt-4">
+                <a href="#reservation" class="w-full sm:w-auto px-9 py-4 rounded-full bg-gold-gradient text-aura-black font-sans text-xs tracking-[0.2em] font-bold uppercase hover:opacity-95 transition-all shadow-xl shadow-aura-gold/20 flex items-center justify-center gap-3 group">
+                    <span>Reservasi Meja</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                </a>
+                <a href="#menu" class="w-full sm:w-auto px-9 py-4 rounded-full glass-gold text-aura-cream hover:text-aura-gold font-sans text-xs tracking-[0.2em] font-semibold uppercase transition-all flex items-center justify-center gap-3 border border-aura-gold/30 hover:border-aura-gold">
+                    <i data-lucide="utensils" class="w-4 h-4 text-aura-gold"></i>
+                    <span>Jelajahi Menu</span>
+                </a>
+            </div>
+
+            <!-- Quick Feature Cards -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6 pt-16 border-t border-aura-gold/15 max-w-3xl mx-auto text-left">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-aura-gold/10 border border-aura-gold/30 flex items-center justify-center text-aura-gold">
+                        <i data-lucide="award" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-aura-muted uppercase tracking-wider">Maju Kuliner</p>
+                        <p class="text-xs font-semibold text-aura-cream">Michelin Standard</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-aura-gold/10 border border-aura-gold/30 flex items-center justify-center text-aura-gold">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-aura-muted uppercase tracking-wider">Sudut Fotogenik</p>
+                        <p class="text-xs font-semibold text-aura-cream">100% Aesthetic</p>
+                    </div>
+                </div>
+                <div class="col-span-2 md:col-span-1 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-aura-gold/10 border border-aura-gold/30 flex items-center justify-center text-aura-gold">
+                        <i data-lucide="wine" class="w-5 h-5"></i>
+                    </div>
+                    <div>
+                        <p class="text-[10px] text-aura-muted uppercase tracking-wider">Ruang Eksklusif</p>
+                        <p class="text-xs font-semibold text-aura-cream">Private Gold Suite</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 2. ABOUT US & COUNTER STATS SECTION -->
+    <section id="about" class="py-24 px-6 relative bg-gradient-to-b from-aura-black via-aura-dark to-aura-black">
+        <div class="ambient-gold-orb top-1/2 left-0"></div>
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Asymmetric Image Grid -->
+            <div class="lg:col-span-6 grid grid-cols-2 gap-4 relative">
+                <div class="space-y-4">
+                    <div class="rounded-2xl img-zoom-container glass-card p-2">
+                        <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800&auto=format&fit=crop" alt="Noir Lounge Interior" class="rounded-xl w-full h-64 object-cover filter brightness-90">
+                    </div>
+                    <div class="rounded-2xl img-zoom-container glass-card p-2">
+                        <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800&auto=format&fit=crop" alt="Gold Cocktail Art" class="rounded-xl w-full h-44 object-cover filter brightness-90">
+                    </div>
+                </div>
+                <div class="space-y-4 pt-8">
+                    <div class="rounded-2xl img-zoom-container glass-card p-2">
+                        <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop" alt="Private Dining Room" class="rounded-xl w-full h-44 object-cover filter brightness-90">
+                    </div>
+                    <div class="rounded-2xl img-zoom-container glass-card p-2">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop" alt="Fine Plating Art" class="rounded-xl w-full h-64 object-cover filter brightness-90">
+                    </div>
+                </div>
+
+                <!-- Floating Center Badge -->
+                <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 glass-gold p-4 rounded-full text-center border-aura-gold shadow-2xl hidden sm:block">
+                    <div class="w-20 h-20 rounded-full bg-aura-gold/20 flex flex-col items-center justify-center text-aura-gold mx-auto border border-aura-gold/40">
+                        <span class="font-serif font-bold text-2xl leading-none text-gold-gradient">AURA</span>
+                        <span class="text-[8px] uppercase tracking-widest text-aura-cream mt-0.5 font-sans">Est. 2024</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Narrative & Stats Text -->
+            <div class="lg:col-span-6 space-y-6">
+                <div class="inline-flex items-center gap-2 text-aura-gold text-xs tracking-[0.2em] uppercase font-sans">
+                    <i data-lucide="compass" class="w-4 h-4"></i>
+                    <span>Filosofi & Konsep</span>
+                </div>
+
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-aura-cream leading-tight">
+                    Perpaduan Rasa Autentik & <span class="italic text-gold-gradient font-normal">Estetika Visual Modern</span>
+                </h2>
+
+                <p class="text-aura-muted text-sm sm:text-base leading-relaxed font-light">
+                    **AURA Noir & Gold** diciptakan bagi Anda yang menghargai keindahan dalam kesederhanaan. Nama *Noir* mencerminkan ketenangan dan misteri dalam nuansa kegelapan yang elegan, sementara *Gold* melambangkan kilau kehangatan serta kualitas bahan kuliner tingkat tinggi.
+                </p>
+
+                <p class="text-aura-muted text-sm sm:text-base leading-relaxed font-light">
+                    Setiap hidangan merupakan karya seni haute cuisine yang diracik presisi oleh tim koki berpengalaman internasional. Dipadukan dengan pencahayaan warm ambient dan musik lounge terpilih, tempat ini menjadi sanctuary ideal bagi santap malam romantis maupun selebrasi penting Anda.
+                </p>
+
+                <!-- Counter Statistics -->
+                <div class="grid grid-cols-3 gap-4 pt-6 border-t border-aura-gold/15">
+                    <div>
+                        <h3 class="font-serif text-2xl sm:text-4xl font-bold text-gold-gradient">45+</h3>
+                        <p class="text-[11px] text-aura-muted mt-1 uppercase tracking-wider font-sans">Menu Spesial</p>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-2xl sm:text-4xl font-bold text-gold-gradient">12</h3>
+                        <p class="text-[11px] text-aura-muted mt-1 uppercase tracking-wider font-sans">Koki Penghargaan</p>
+                    </div>
+                    <div>
+                        <h3 class="font-serif text-2xl sm:text-4xl font-bold text-gold-gradient">99%</h3>
+                        <p class="text-[11px] text-aura-muted mt-1 uppercase tracking-wider font-sans">Kepuasan Tamu</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 3. INTERACTIVE MENU EXPERIENCE -->
+    <section id="menu" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto space-y-12">
+            
+            <div class="text-center space-y-4 max-w-2xl mx-auto">
+                <span class="text-aura-gold text-xs tracking-[0.2em] uppercase font-sans">Pengalaman Gastronomi</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-aura-cream">Menu Signature & Artisan</h2>
+                <p class="text-aura-muted text-sm font-light">Koleksi hidangan mahakarya yang disiapkan khusus untuk memanjakan indera perasa Anda.</p>
+            </div>
+
+            <!-- Menu Category Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-3" id="menu-filters">
+                <button data-category="all" class="menu-tab active px-6 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all glass-gold border-aura-gold text-aura-gold font-bold">
+                    Semua Menu
+                </button>
+                <button data-category="signature" class="menu-tab px-6 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all glass-card text-aura-muted hover:text-aura-cream">
+                    Chef's Signature
+                </button>
+                <button data-category="starter" class="menu-tab px-6 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all glass-card text-aura-muted hover:text-aura-cream">
+                    Starter
+                </button>
+                <button data-category="main" class="menu-tab px-6 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all glass-card text-aura-muted hover:text-aura-cream">
+                    Main Course
+                </button>
+                <button data-category="drinks" class="menu-tab px-6 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all glass-card text-aura-muted hover:text-aura-cream">
+                    Artisanal Drinks
+                </button>
+                <button data-category="dessert" class="menu-tab px-6 py-2.5 rounded-full text-xs font-sans tracking-[0.15em] uppercase transition-all glass-card text-aura-muted hover:text-aura-cream">
+                    Dessert
+                </button>
+            </div>
+
+            <!-- Menu Grid Container -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="menu-grid">
+                
+                <!-- Menu Item 1: Signature -->
+                <div class="menu-item glass-card rounded-3xl overflow-hidden group cursor-pointer" data-category="signature" onclick="openMenuModal(1)">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop" alt="Noir Gold Wagyu Tenderloin" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-aura-black/80 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-aura-gold border border-aura-gold/40 flex items-center gap-1.5">
+                            <i data-lucide="crown" class="w-3 h-3"></i> Chef's Pick
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-serif text-xl font-bold text-aura-cream group-hover:text-aura-gold transition-colors">Noir Gold Wagyu MB9+</h3>
+                            <span class="font-serif text-lg font-bold text-gold-gradient">Rp 420k</span>
+                        </div>
+                        <p class="text-aura-muted text-xs font-light line-clamp-2 leading-relaxed">
+                            Potongan Wagyu MB9+ yang sangat lembut disajikan dengan saus black truffle Prancis, jus jamur liar, dan lembaran edible gold 24k.
+                        </p>
+                        <div class="pt-2 flex justify-between items-center text-xs text-aura-gold">
+                            <span class="text-[11px] text-aura-muted font-sans">Smoked Oakwood Flavor</span>
+                            <span class="hover:underline flex items-center gap-1 font-semibold text-aura-gold">Detail Rasa <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 2: Artisanal Drink -->
+                <div class="menu-item glass-card rounded-3xl overflow-hidden group cursor-pointer" data-category="drinks" onclick="openMenuModal(2)">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop" alt="AURA Golden Elixir Cocktail" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-aura-black/80 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-aura-gold border border-aura-gold/40">
+                            Signature Mocktail
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-serif text-xl font-bold text-aura-cream group-hover:text-aura-gold transition-colors">AURA Golden Elixir</h3>
+                            <span class="font-serif text-lg font-bold text-gold-gradient">Rp 85k</span>
+                        </div>
+                        <p class="text-aura-muted text-xs font-light line-clamp-2 leading-relaxed">
+                            Infusi teh mawar hitam aromatik, madu hutan liar, ekstrak jeruk yuzu segar, dan efek kilau emas yang menakjubkan.
+                        </p>
+                        <div class="pt-2 flex justify-between items-center text-xs text-aura-gold">
+                            <span class="text-[11px] text-aura-muted font-sans">Fresh & Citrusy</span>
+                            <span class="hover:underline flex items-center gap-1 font-semibold text-aura-gold">Detail Rasa <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 3: Dessert -->
+                <div class="menu-item glass-card rounded-3xl overflow-hidden group cursor-pointer" data-category="dessert" onclick="openMenuModal(3)">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop" alt="Dark Chocolate Gold Sphere" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-aura-black/80 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-aura-gold border border-aura-gold/40">
+                            Sweet Masterpiece
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-serif text-xl font-bold text-aura-cream group-hover:text-aura-gold transition-colors">Noir Gold Sphere Dessert</h3>
+                            <span class="font-serif text-lg font-bold text-gold-gradient">Rp 110k</span>
+                        </div>
+                        <p class="text-aura-muted text-xs font-light line-clamp-2 leading-relaxed">
+                            Bola cokelat Valrhona 70% berlapis emas murni, diisi mousse hazelnut lezat dan siraman saus karamel asin hangat saat disajikan.
+                        </p>
+                        <div class="pt-2 flex justify-between items-center text-xs text-aura-gold">
+                            <span class="text-[11px] text-aura-muted font-sans">Rich Dark Chocolate</span>
+                            <span class="hover:underline flex items-center gap-1 font-semibold text-aura-gold">Detail Rasa <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 4: Starter -->
+                <div class="menu-item glass-card rounded-3xl overflow-hidden group cursor-pointer" data-category="starter" onclick="openMenuModal(4)">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop" alt="Pan-Seared Foie Gras" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-aura-black/80 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-aura-gold border border-aura-gold/40">
+                            Appetizer
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-serif text-xl font-bold text-aura-cream group-hover:text-aura-gold transition-colors">Pan-Seared Foie Gras</h3>
+                            <span class="font-serif text-lg font-bold text-gold-gradient">Rp 240k</span>
+                        </div>
+                        <p class="text-aura-muted text-xs font-light line-clamp-2 leading-relaxed">
+                            Hati angsa lembut dipanggang sempurna dengan compote buah beri liar, pengurangan anggur bumbu, dan roti brioche buatan tangan.
+                        </p>
+                        <div class="pt-2 flex justify-between items-center text-xs text-aura-gold">
+                            <span class="text-[11px] text-aura-muted font-sans">Melts In Mouth</span>
+                            <span class="hover:underline flex items-center gap-1 font-semibold text-aura-gold">Detail Rasa <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 5: Main Course -->
+                <div class="menu-item glass-card rounded-3xl overflow-hidden group cursor-pointer" data-category="main" onclick="openMenuModal(5)">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=800&auto=format&fit=crop" alt="Pan-Seared Chilean Sea Bass" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-aura-black/80 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-aura-gold border border-aura-gold/40">
+                            Seafood Delicate
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-serif text-xl font-bold text-aura-cream group-hover:text-aura-gold transition-colors">Chilean Sea Bass Saffron</h3>
+                            <span class="font-serif text-lg font-bold text-gold-gradient">Rp 310k</span>
+                        </div>
+                        <p class="text-aura-muted text-xs font-light line-clamp-2 leading-relaxed">
+                            Ikan Sea Bass segar dipanggang lembut, disajikan dengan emulsi saus Saffron Iran beraroma tinggi dan asparagus organik.
+                        </p>
+                        <div class="pt-2 flex justify-between items-center text-xs text-aura-gold">
+                            <span class="text-[11px] text-aura-muted font-sans">Aromatic Saffron</span>
+                            <span class="hover:underline flex items-center gap-1 font-semibold text-aura-gold">Detail Rasa <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Menu Item 6: Artisanal Drinks -->
+                <div class="menu-item glass-card rounded-3xl overflow-hidden group cursor-pointer" data-category="drinks" onclick="openMenuModal(6)">
+                    <div class="relative h-64 overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?q=80&w=800&auto=format&fit=crop" alt="Black Gold Velvet Latte" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute top-4 left-4 bg-aura-black/80 backdrop-blur-md px-3.5 py-1 rounded-full text-[10px] uppercase tracking-widest font-bold text-aura-gold border border-aura-gold/40">
+                            Artisanal Coffee
+                        </div>
+                    </div>
+                    <div class="p-6 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <h3 class="font-serif text-xl font-bold text-aura-cream group-hover:text-aura-gold transition-colors">Black Gold Velvet Latte</h3>
+                            <span class="font-serif text-lg font-bold text-gold-gradient">Rp 68k</span>
+                        </div>
+                        <p class="text-aura-muted text-xs font-light line-clamp-2 leading-relaxed">
+                            Espresso single origin Ethiopia blended dengan arang aktif alami, susu oat lembut, dan sentuhan madu bunga liar.
+                        </p>
+                        <div class="pt-2 flex justify-between items-center text-xs text-aura-gold">
+                            <span class="text-[11px] text-aura-muted font-sans">Smooth & Creamy</span>
+                            <span class="hover:underline flex items-center gap-1 font-semibold text-aura-gold">Detail Rasa <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MENU POP-UP MODAL (Detail Rasa & Cerita) -->
+    <div id="menu-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-lg hidden transition-opacity duration-300">
+        <div class="glass-gold max-w-3xl w-full rounded-3xl overflow-hidden shadow-2xl relative border-aura-gold/40">
+            <button onclick="closeMenuModal()" class="absolute top-4 right-4 z-10 bg-aura-black/80 text-aura-cream p-2 rounded-full hover:text-aura-gold transition-colors border border-aura-gold/30">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <div class="h-64 md:h-full relative">
+                    <img id="modal-img" src="" alt="Menu Detail" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-transparent to-transparent md:hidden"></div>
+                </div>
+                <div class="p-6 sm:p-8 space-y-4 flex flex-col justify-between">
+                    <div>
+                        <span id="modal-tag" class="inline-block px-3 py-1 rounded-full text-[10px] font-sans uppercase tracking-widest font-semibold bg-aura-gold/20 text-aura-gold border border-aura-gold/30 mb-2">Category</span>
+                        <h3 id="modal-title" class="font-serif text-2xl sm:text-3xl font-bold text-aura-cream">Menu Title</h3>
+                        <p id="modal-price" class="font-serif text-2xl font-bold text-gold-gradient mt-1">Price</p>
+                        <p id="modal-desc" class="text-aura-muted text-xs sm:text-sm leading-relaxed mt-4 font-light">Description storytelling text goes here...</p>
+                        
+                        <div class="mt-6 pt-4 border-t border-aura-gold/15 space-y-2 text-xs text-aura-cream/80">
+                            <p class="flex items-center gap-2"><i data-lucide="sparkles" class="w-4 h-4 text-aura-gold"></i> Bumbu organik & impor pilihan</p>
+                            <p class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-aura-gold"></i> Waktu penyiapan: 15-20 Menit</p>
+                        </div>
+                    </div>
+
+                    <button onclick="closeMenuModal(); scrollToReservation();" class="w-full py-3.5 rounded-full bg-gold-gradient text-aura-black font-sans text-xs tracking-[0.2em] font-bold uppercase hover:opacity-95 transition-all shadow-lg flex items-center justify-center gap-2 mt-4">
+                        <i data-lucide="calendar" class="w-4 h-4"></i>
+                        <span>Pesan Meja Untuk Menu Ini</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. AESTHETIC GALLERY & ATMOSPHERE SECTION -->
+    <section id="gallery" class="py-24 px-6 bg-aura-dark/60 border-t border-b border-aura-gold/10">
+        <div class="max-w-7xl mx-auto space-y-12">
+            
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div class="space-y-3">
+                    <span class="text-aura-gold text-xs tracking-[0.2em] uppercase font-sans">Visual & Atmosphere</span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-aura-cream">Sudut-Sudut Instagramable</h2>
+                </div>
+                <div class="flex items-center gap-2 text-aura-muted text-xs font-sans tracking-wider">
+                    <i data-lucide="instagram" class="w-4 h-4 text-aura-gold"></i>
+                    <span>Tag momen Anda di <strong class="text-aura-cream">@auranoir.gold</strong></span>
+                </div>
+            </div>
+
+            <!-- Gallery Masonry Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                
+                <div class="relative group rounded-3xl overflow-hidden glass-card h-80 img-zoom-container cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=1200&auto=format&fit=crop', 'Noir Luxe Lounge Area')">
+                    <img src="https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?q=80&w=800&auto=format&fit=crop" alt="Noir Lounge" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-aura-gold text-xs uppercase tracking-widest font-semibold">Indoor Lounge</span>
+                        <p class="text-aura-cream text-sm font-serif">Pencahayaan temaram yang hangat</p>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-3xl overflow-hidden glass-card h-80 img-zoom-container sm:col-span-2 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop', 'Outdoor Glasshouse Night Ambience')">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop" alt="Outdoor Glasshouse" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-aura-gold text-xs uppercase tracking-widest font-semibold">Outdoor Glasshouse</span>
+                        <p class="text-aura-cream text-sm font-serif">Atap kaca terbuka melihat keindahan malam</p>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-3xl overflow-hidden glass-card h-80 img-zoom-container cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop', 'Private Gold Suite')">
+                    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=800&auto=format&fit=crop" alt="Private Gold Suite" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-aura-gold text-xs uppercase tracking-widest font-semibold">Private Gold Suite</span>
+                        <p class="text-aura-cream text-sm font-serif">Kenyamanan eksklusif untuk perayaan intim</p>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-3xl overflow-hidden glass-card h-80 img-zoom-container sm:col-span-2 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop', 'Chef Haute Cuisine Plating')">
+                    <img src="https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=1200&auto=format&fit=crop" alt="Plating Detail" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-aura-gold text-xs uppercase tracking-widest font-semibold">Artistic Plating</span>
+                        <p class="text-aura-cream text-sm font-serif">Simfoni visual di atas piring</p>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-3xl overflow-hidden glass-card h-80 img-zoom-container cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=1200&auto=format&fit=crop', 'Gold Mixology Bar')">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=800&auto=format&fit=crop" alt="Gold Bar" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-aura-gold text-xs uppercase tracking-widest font-semibold">Mixology Bar</span>
+                        <p class="text-aura-cream text-sm font-serif">Atmosfer minuman hangat & modern</p>
+                    </div>
+                </div>
+
+                <div class="relative group rounded-3xl overflow-hidden glass-card h-80 img-zoom-container cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1522336572468-97b06e8ef143?q=80&w=1200&auto=format&fit=crop', 'Romantic Candlelight Table')">
+                    <img src="https://images.unsplash.com/photo-1522336572468-97b06e8ef143?q=80&w=800&auto=format&fit=crop" alt="Romantic Table" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-aura-black via-aura-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                        <span class="text-aura-gold text-xs uppercase tracking-widest font-semibold">Candlelight Table</span>
+                        <p class="text-aura-cream text-sm font-serif">Kesan romantis yang tak terlupakan</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL PREVIEW -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl hidden transition-opacity duration-300">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 z-10 text-aura-cream hover:text-aura-gold p-2 bg-aura-black/60 rounded-full border border-aura-gold/30">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <div class="max-w-5xl w-full text-center space-y-4">
+            <img id="lightbox-img" src="" alt="Gallery Preview" class="max-h-[80vh] mx-auto rounded-2xl object-contain border border-aura-gold/30 shadow-2xl">
+            <p id="lightbox-caption" class="text-aura-gold font-serif text-lg tracking-wide"></p>
+        </div>
+    </div>
+
+    <!-- 5. INTERACTIVE TABLE RESERVATION SYSTEM -->
+    <section id="reservation" class="py-24 px-6 relative">
+        <div class="ambient-gold-orb top-1/3 right-0"></div>
+        <div class="max-w-4xl mx-auto glass-gold p-8 sm:p-12 rounded-3xl relative z-10 border-aura-gold/30 shadow-2xl">
+            
+            <div class="text-center space-y-3 mb-10">
+                <span class="text-aura-gold text-xs tracking-[0.2em] uppercase font-sans">Reservasi Prioritas</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-aura-cream">Amankan Meja Anda</h2>
+                <p class="text-aura-muted text-xs sm:text-sm font-light">Disarankan memesan H-1 khusus untuk area Outdoor Glasshouse & Private Gold Suite.</p>
+            </div>
+
+            <form id="reservation-form" class="space-y-6" onsubmit="handleReservation(event)">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Name -->
+                    <div>
+                        <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Nama Lengkap</label>
+                        <div class="relative">
+                            <input type="text" required placeholder="Contoh: Raymond Hartanto" class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl px-4 py-3.5 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors">
+                            <i data-lucide="user" class="w-4 h-4 absolute right-4 top-4 text-aura-muted"></i>
+                        </div>
+                    </div>
+
+                    <!-- Phone / WhatsApp -->
+                    <div>
+                        <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Nomor WhatsApp</label>
+                        <div class="relative">
+                            <input type="tel" required placeholder="+62 812 3456 7890" class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl px-4 py-3.5 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors">
+                            <i data-lucide="phone" class="w-4 h-4 absolute right-4 top-4 text-aura-muted"></i>
+                        </div>
+                    </div>
+
+                    <!-- Date -->
+                    <div>
+                        <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Tanggal Reservasi</label>
+                        <div class="relative">
+                            <input type="date" required class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl px-4 py-3.5 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors">
+                        </div>
+                    </div>
+
+                    <!-- Time -->
+                    <div>
+                        <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Waktu / Jam</label>
+                        <div class="relative">
+                            <select required class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl px-4 py-3.5 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors appearance-none">
+                                <option value="">Pilih Jam Kunjungan...</option>
+                                <option value="11:30">11:30 - Lunch Session</option>
+                                <option value="14:00">14:00 - High Tea Session</option>
+                                <option value="18:30">18:30 - Fine Dinner Session 1</option>
+                                <option value="20:30">20:30 - Fine Dinner Session 2</option>
+                            </select>
+                            <i data-lucide="clock" class="w-4 h-4 absolute right-4 top-4 text-aura-muted pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <!-- Guests Count -->
+                    <div>
+                        <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Jumlah Tamu</label>
+                        <div class="relative">
+                            <select required class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl px-4 py-3.5 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors appearance-none">
+                                <option value="2">2 Tamu (Romantic Table)</option>
+                                <option value="4">3 - 4 Tamu (Small Party)</option>
+                                <option value="6">5 - 8 Tamu (Family & Celebration)</option>
+                                <option value="10">8+ Tamu (Private Event)</option>
+                            </select>
+                            <i data-lucide="users" class="w-4 h-4 absolute right-4 top-4 text-aura-muted pointer-events-none"></i>
+                        </div>
+                    </div>
+
+                    <!-- Area Selection -->
+                    <div>
+                        <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Pilihan Area Ambience</label>
+                        <div class="relative">
+                            <select required class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl px-4 py-3.5 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors appearance-none">
+                                <option value="Indoor Luxe Lounge">Indoor Luxe Lounge (Temaram & Elegant)</option>
+                                <option value="Outdoor Glasshouse">Outdoor Glasshouse (View Open Air)</option>
+                                <option value="Private Gold Suite">Private Gold Suite (Eksklusif VIP)</option>
+                            </select>
+                            <i data-lucide="map-pin" class="w-4 h-4 absolute right-4 top-4 text-aura-muted pointer-events-none"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Special Requests -->
+                <div>
+                    <label class="block text-[11px] font-sans text-aura-gold uppercase tracking-widest mb-2 font-semibold">Catatan Khusus / Dekorasi Ulang Tahun/Anniversary</label>
+                    <textarea rows="3" placeholder="Contoh: Mohon sediakan buket bunga mawar dan lilin kejutan anniversary..." class="w-full bg-aura-black/90 border border-aura-gold/20 rounded-2xl p-4 text-sm text-aura-cream focus:outline-none focus:border-aura-gold transition-colors"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 rounded-full bg-gold-gradient text-aura-black font-sans text-xs tracking-[0.2em] font-bold uppercase hover:opacity-95 transition-all shadow-xl shadow-aura-gold/20 flex items-center justify-center gap-2">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    <span>Konfirmasi Reservasi Sekarang</span>
+                </button>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- 6. WHAT OUR GUESTS SAY (TESTIMONIALS) -->
+    <section id="reviews" class="py-24 px-6 bg-gradient-to-b from-aura-black via-aura-dark to-aura-black">
+        <div class="max-w-7xl mx-auto space-y-12">
+            
+            <div class="text-center space-y-3">
+                <span class="text-aura-gold text-xs tracking-[0.2em] uppercase font-sans">Kesan & Pengalaman</span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-aura-cream">Ulasan Dari Para Tamu</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                
+                <!-- Review Card 1 -->
+                <div class="glass-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-aura-gold gap-1">
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                        </div>
+                        <p class="text-aura-cream text-sm italic font-serif leading-relaxed">
+                            "AURA Noir & Gold benar-benar memberikan standar baru untuk fine dining di kota ini. Wagyu MB9+-nya lumer di mulut dan suasananya sangat berkelas untuk foto-foto."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-aura-gold/15">
+                        <div class="w-10 h-10 rounded-full bg-aura-gold/20 border border-aura-gold text-aura-gold flex items-center justify-center font-bold text-xs">
+                            CL
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-semibold text-aura-cream">Clarissa Larasati</h4>
+                            <p class="text-[10px] text-aura-muted">Lifestyle & Food Critic</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Card 2 -->
+                <div class="glass-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-aura-gold gap-1">
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                        </div>
+                        <p class="text-aura-cream text-sm italic font-serif leading-relaxed">
+                            "Merayakan anniversary pernikahan di Private Gold Suite. Pelayanannya sangat atentif dan kejutan kuis dessert emasnya bikin pasangan saya terkesan."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-aura-gold/15">
+                        <div class="w-10 h-10 rounded-full bg-aura-gold/20 border border-aura-gold text-aura-gold flex items-center justify-center font-bold text-xs">
+                            DR
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-semibold text-aura-cream">Dito & Rosi</h4>
+                            <p class="text-[10px] text-aura-muted">Verified Guests</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review Card 3 -->
+                <div class="glass-card p-8 rounded-3xl space-y-6 flex flex-col justify-between">
+                    <div class="space-y-4">
+                        <div class="flex text-aura-gold gap-1">
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                            <i data-lucide="star" class="w-4 h-4 fill-aura-gold"></i>
+                        </div>
+                        <p class="text-aura-cream text-sm italic font-serif leading-relaxed">
+                            "Golden Elixir-nya sangat unik dan menyegarkan! Konsep warna hitam emas restoran ini benar-benar terasa mahal tapi harga menunya tetap rasional."
+                        </p>
+                    </div>
+                    <div class="flex items-center gap-3 pt-4 border-t border-aura-gold/15">
+                        <div class="w-10 h-10 rounded-full bg-aura-gold/20 border border-aura-gold text-aura-gold flex items-center justify-center font-bold text-xs">
+                            KW
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-semibold text-aura-cream">Kevin Wijaya</h4>
+                            <p class="text-[10px] text-aura-muted">Entrepreneur</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- 7. LOCATION & HOURS SECTION -->
+    <section id="contact" class="py-24 px-6 relative">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+            
+            <div class="lg:col-span-5 space-y-8">
+                <div class="space-y-3">
+                    <span class="text-aura-gold text-xs tracking-[0.2em] uppercase font-sans">Kunjungi Kami</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-bold text-aura-cream">Lokasi & Jam Operasional</h2>
+                    <p class="text-aura-muted text-sm font-light leading-relaxed">
+                        Terletak di kawasan elite pusat kota dengan fasilitas akses parkir VIP & layanan valet khusus gratis.
+                    </p>
+                </div>
+
+                <div class="space-y-6 text-sm font-sans">
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-2xl bg-aura-gold/10 border border-aura-gold/30 text-aura-gold">
+                            <i data-lucide="map-pin" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-aura-cream">Alamat Utama</h4>
+                            <p class="text-aura-muted text-xs mt-0.5">Jl. SCBD Boulevard No. 99, Kebayoran Baru, Jakarta Selatan 12190</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-2xl bg-aura-gold/10 border border-aura-gold/30 text-aura-gold">
+                            <i data-lucide="clock" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-aura-cream">Jam Operasional</h4>
+                            <p class="text-aura-muted text-xs mt-0.5">Senin - Minggu: 11:00 - 23:00 WIB</p>
+                            <p class="text-aura-gold text-[11px] mt-0.5">Layanan Kitchen Closes at 22:15 WIB</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-start gap-4">
+                        <div class="p-3 rounded-2xl bg-aura-gold/10 border border-aura-gold/30 text-aura-gold">
+                            <i data-lucide="phone" class="w-5 h-5"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold text-aura-cream">Kontak & Pertanyaan</h4>
+                            <p class="text-aura-muted text-xs mt-0.5">+62 811-2233-4455 (WhatsApp Official)</p>
+                            <p class="text-aura-muted text-xs">concierge@auranoirgold.com</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-2">
+                    <a href="https://wa.me/6281122334455" target="_blank" class="px-6 py-3 rounded-full bg-emerald-600/90 text-white font-sans text-xs font-semibold hover:bg-emerald-500 transition-colors inline-flex items-center gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i>
+                        <span>Chat WhatsApp Konsultasi Event</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Aesthetic Google Maps Placeholder Card -->
+            <div class="lg:col-span-7 glass-gold rounded-3xl overflow-hidden min-h-[380px] relative border-aura-gold/30 flex flex-col justify-between p-8 bg-[url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center">
+                <div class="absolute inset-0 bg-aura-black/85 backdrop-blur-sm"></div>
+                
+                <div class="relative z-10 flex justify-between items-start">
+                    <div class="px-4 py-2 rounded-full bg-aura-black/80 border border-aura-gold/30 text-aura-gold text-xs font-mono">
+                        ● Live Map Direction
+                    </div>
+                    <a href="https://maps.google.com" target="_blank" class="px-5 py-2.5 rounded-full bg-gold-gradient text-aura-black font-sans text-xs font-bold hover:opacity-90 transition-opacity flex items-center gap-2">
+                        <span>Buka Petunjuk Arah</span>
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                    </a>
+                </div>
+
+                <div class="relative z-10 my-auto text-center space-y-3 py-12">
+                    <div class="w-14 h-14 rounded-full bg-aura-gold text-aura-black flex items-center justify-center mx-auto shadow-2xl animate-bounce">
+                        <i data-lucide="map-pin" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-aura-cream">AURA Noir & Gold Sanctuary</h3>
+                    <p class="text-xs text-aura-muted">Valet Parking Gratis Tersedia Sepanjang Hari</p>
+                </div>
+
+                <div class="relative z-10 border-t border-aura-gold/15 pt-4 flex flex-wrap justify-between text-xs text-aura-muted">
+                    <span>Akses Mudah via Gate SCBD</span>
+                    <span>Valet Service Available</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-aura-gold/15 py-12 px-6 bg-aura-black">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs text-aura-muted">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full border border-aura-gold/40 flex items-center justify-center text-aura-gold">
+                    <i data-lucide="crown" class="w-4 h-4"></i>
+                </div>
+                <span class="font-serif text-aura-cream font-bold tracking-widest">AURA NOIR & GOLD</span>
+            </div>
+            
+            <p>© 2026 AURA Noir & Gold. All Rights Reserved. Crafted for Culinary Perfectionists.</p>
+
+            <div class="flex gap-6 text-xs">
+                <a href="#" class="hover:text-aura-gold transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-aura-gold transition-colors">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- FLOATING ACTION BUTTON -->
+    <div class="fixed bottom-6 right-6 z-40 flex flex-col gap-3">
+        <a href="https://wa.me/6281122334455" target="_blank" class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-transform" title="Chat WhatsApp">
+            <i data-lucide="message-circle" class="w-6 h-6"></i>
+        </a>
+        <a href="#reservation" class="w-12 h-12 rounded-full bg-gold-gradient text-aura-black flex items-center justify-center shadow-2xl hover:scale-110 transition-transform" title="Reservasi Meja">
+            <i data-lucide="calendar" class="w-6 h-6"></i>
+        </a>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Navbar Scroll Background Transition
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass-gold', 'shadow-2xl');
+                navbar.classList.remove('py-6');
+                navbar.classList.add('py-4');
+            } else {
+                navbar.classList.remove('glass-gold', 'shadow-2xl');
+                navbar.classList.remove('py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Mobile Navigation Drawer Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileDrawer = document.getElementById('mobile-drawer');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileDrawer.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileDrawer.classList.add('hidden');
+            });
+        });
+
+        // Interactive Menu Filter Tabs
+        const filterBtns = document.querySelectorAll('#menu-filters button');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => {
+                    b.classList.remove('glass-gold', 'border-aura-gold', 'text-aura-gold', 'font-bold');
+                    b.classList.add('glass-card', 'text-aura-muted');
+                });
+                btn.classList.remove('glass-card', 'text-aura-muted');
+                btn.classList.add('glass-gold', 'border-aura-gold', 'text-aura-gold', 'font-bold');
+
+                const category = btn.getAttribute('data-category');
+
+                menuItems.forEach(item => {
+                    if (category === 'all' || item.getAttribute('data-category') === category) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Detailed Taste Story Menu Data
+        const menuData = {
+            1: {
+                title: "Noir Gold Wagyu MB9+",
+                price: "Rp 420.000",
+                category: "Chef's Signature",
+                desc: "Potongan Daging Wagyu kelas MB9+ yang diimpor langsung dari Australia, dipanggang dengan teknik slow-smoke kayu oak. Disajikan bersamaReduction saus black truffle Prancis, puree kentang mentega yang lembut, serta dekorasi emas murni 24-karat.",
+                img: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=800&auto=format&fit=crop"
+            },
+            2: {
+                title: "AURA Golden Elixir",
+                price: "Rp 85.000",
+                category: "Signature Mocktail",
+                desc: "Mocktail ikonik AURA dengan bahan dasar racikan teh mawar hitam organik, madu murni hutan, perasan jeruk yuzu jepang segar, dan bubuk glitter emas khusus makanan yang bercahaya indah di bawah sinar lampu.",
+                img: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?q=80&w=800&auto=format&fit=crop"
+            },
+            3: {
+                title: "Noir Gold Sphere Dessert",
+                price: "Rp 110.000",
+                category: "Gourmet Dessert",
+                desc: "Karya seni pencuci mulut berupa cangkang cokelat Valrhona 70% berlapis emas. Saat disajikan, staf kami akan menyiramkan saus karamel asin hangat untuk melelehkan cangkang, membuka lapisan mousse hazelnut lezat di dalamnya.",
+                img: "https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=800&auto=format&fit=crop"
+            },
+            4: {
+                title: "Pan-Seared Foie Gras",
+                price: "Rp 240.000",
+                category: "Appetizer",
+                desc: "Hati angsa berkualitas tinggi yang dipanggang cepat hingga renyah di luar dan meleleh sempurna di dalam. Dipadukan dengan asam manisnya compote buah beri liar dan roti brioche buatan rumahan.",
+                img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=800&auto=format&fit=crop"
+            },
+            5: {
+                title: "Chilean Sea Bass Saffron",
+                price: "Rp 310.000",
+                category: "Main Course",
+                desc: "Ikan Chilean Sea Bass tangkapan liar yang dipanggang dengan mentega herbal, disiram saus emulsi Saffron Iran asli yang beraroma wangi, disajikan bersama tumisan asparagus muda.",
+                img: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=800&auto=format&fit=crop"
+            },
+            6: {
+                title: "Black Gold Velvet Latte",
+                price: "Rp 68.000",
+                category: "Artisanal Coffee",
+                desc: "Satu shot espresso Arabika Ethiopia segar yang dicampur arang aktif alami, susu oat berbuih creamy, dan sentuhan madu lavender aromatik.",
+                img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?q=80&w=800&auto=format&fit=crop"
+            }
+        };
+
+        function openMenuModal(id) {
+            const data = menuData[id];
+            if (!data) return;
+
+            document.getElementById('modal-img').src = data.img;
+            document.getElementById('modal-tag').innerText = data.category;
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-price').innerText = data.price;
+            document.getElementById('modal-desc').innerText = data.desc;
+
+            const modal = document.getElementById('menu-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeMenuModal() {
+            document.getElementById('menu-modal').classList.add('hidden');
+        }
+
+        // Gallery Lightbox Modal Logic
+        function openLightbox(imgUrl, caption) {
+            document.getElementById('lightbox-img').src = imgUrl;
+            document.getElementById('lightbox-caption').innerText = caption;
+            document.getElementById('lightbox-modal').classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+
+        function scrollToReservation() {
+            document.getElementById('reservation').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form Reservation Handler
+        function handleReservation(e) {
+            e.preventDefault();
+
+            // Display Gold Toast Notification
+            showToast("Reservasi Berhasil Dibuat!", "Tim Concierge AURA akan segera mengonfirmasi rincian tempat Anda via WhatsApp dalam 10 menit.");
+
+            // Reset Form
+            document.getElementById('reservation-form').reset();
+        }
+
+        function showToast(title, message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toast-title').innerText = title;
+            document.getElementById('toast-message').innerText = message;
+
+            toast.classList.remove('translate-y-[-150%]', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-[-150%]', 'opacity-0');
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
